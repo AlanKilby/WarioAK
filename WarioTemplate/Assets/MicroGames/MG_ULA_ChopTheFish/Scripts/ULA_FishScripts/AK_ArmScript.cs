@@ -12,16 +12,20 @@ public class AK_ArmScript : MonoBehaviour
 
     public float fishOffsetX;
     public GameObject fish;
+    public GameObject defeatImage;
 
     public int randButton;
     //public string[] buttons = new string[] { "A", "B", "X", "Y" };
 
     public ControllerKey[] keys = new ControllerKey[] {ControllerKey.A, ControllerKey.B, ControllerKey.X, ControllerKey.Y};
 
+    public bool canPressButton;
+
     private void Start()
     {
         randButton = Random.Range(0, 4);
         anim = GetComponent<Animation>();
+        canPressButton = true;
     }
     private void Update()
     {
@@ -30,7 +34,7 @@ public class AK_ArmScript : MonoBehaviour
         //    anim.Play();
         //}
        
-        if (counter < maxScore && InputManager.GetKeyDown(keys[randButton]))
+        if (counter < maxScore && InputManager.GetKeyDown(keys[randButton]) && canPressButton)
         {
             anim.Play();
         }
@@ -45,10 +49,11 @@ public class AK_ArmScript : MonoBehaviour
 
         for (int i = 0; i < keys.Length; i++)
         {
-            if (i != randButton && InputManager.GetKeyDown(keys[i]))
+            if (i != randButton && InputManager.GetKeyDown(keys[i]) && canPressButton)
             {
                 Debug.Log("YOU LOST !");
-                GameController.FinishGame(false);
+                defeatImage.SetActive(true);
+                canPressButton = false;
             }
         }
 
@@ -59,7 +64,7 @@ public class AK_ArmScript : MonoBehaviour
         //    randButton = Random.Range(0, 4);
         //}
 
-        if (counter < maxScore && InputManager.GetKeyUp(keys[randButton]))
+        if (counter < maxScore && InputManager.GetKeyUp(keys[randButton]) && canPressButton)
         {
             OffsetFish(fishOffsetX);
             counter++;
@@ -69,6 +74,7 @@ public class AK_ArmScript : MonoBehaviour
         if (counter >= maxScore)
         {
             randButton = 4;
+            canPressButton = false;
         }
 
     }

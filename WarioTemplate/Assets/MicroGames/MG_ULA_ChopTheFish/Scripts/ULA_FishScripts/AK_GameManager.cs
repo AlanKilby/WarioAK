@@ -10,6 +10,9 @@ public class AK_GameManager : MonoBehaviour, ITickable
 
     public GameControllerSO gameController;
 
+    public GameObject victoryImage;
+    public GameObject defeatImage;
+
     private void Awake()
     {
         fishList[gameController.currentDifficulty-1].SetActive(true);
@@ -26,13 +29,33 @@ public class AK_GameManager : MonoBehaviour, ITickable
 
     public void OnTick()
     {
-        if(armScript.counter == armScript.maxScore)
+        if(GameController.currentTick == 8 && armScript.counter == armScript.maxScore)
         {
             GameController.FinishGame(true);
+            victoryImage.SetActive(true);
         }
-        else if(GameController.currentTick == 5)
+        else if(GameController.currentTick == 8 && armScript.counter <= armScript.maxScore)
         {
             GameController.FinishGame(false);
+            defeatImage.SetActive(true);
         }
+
+
+        if (armScript.counter >= armScript.maxScore)
+        {
+            victoryImage.SetActive(true);
+            armScript.canPressButton = false;
+        }
+        else if(GameController.currentTick == 5 && armScript.counter >= armScript.maxScore)
+        {
+            victoryImage.SetActive(true);
+            armScript.canPressButton = false;
+        }
+        else if (GameController.currentTick == 5 && armScript.counter <= armScript.maxScore)
+        {
+            defeatImage.SetActive(true);
+            armScript.canPressButton = false;
+        }
+
     }
 }
