@@ -21,6 +21,8 @@ public class AK_ArmScript : MonoBehaviour
 
     public bool canPressButton;
 
+    [SerializeField] AudioClip chop;
+
     private void Start()
     {
         randButton = Random.Range(0, 4);
@@ -69,6 +71,7 @@ public class AK_ArmScript : MonoBehaviour
             OffsetFish(fishOffsetX);
             counter++;
             randButton = Random.Range(0, 4);
+            AudioManager.PlaySound(chop);
         }
 
         if (counter >= maxScore)

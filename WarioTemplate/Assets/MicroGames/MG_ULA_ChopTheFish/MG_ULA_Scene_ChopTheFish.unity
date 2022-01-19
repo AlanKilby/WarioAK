@@ -550,6 +550,7 @@ MonoBehaviour:
   randButton: 0
   keys: 00000000010000000300000002000000
   canPressButton: 0
+  chop: {fileID: 8300000, guid: 267ec515b36de2c4695193ef7e4b0193, type: 3}
 --- !u!212 &334065757
 SpriteRenderer:
   m_ObjectHideFlags: 0
