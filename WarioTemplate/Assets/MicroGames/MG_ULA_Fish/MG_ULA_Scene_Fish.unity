@@ -505,8 +505,8 @@ GameObject:
   m_Component:
   - component: {fileID: 334065758}
   - component: {fileID: 334065757}
-  - component: {fileID: 334065756}
   - component: {fileID: 334065755}
+  - component: {fileID: 334065756}
   m_Layer: 0
   m_Name: Arm_Simple
   m_TagString: Untagged
@@ -539,13 +539,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 334065754}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a28ff40f3c31d3f4abaf3741d33aa775, type: 3}
+  m_Script: {fileID: 11500000, guid: 84f1ef3c9fb74014abfc704fba52f6a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   counter: 0
-  maxScore: 2
-  fishOffsetX: 1
-  fish: {fileID: 1989729115}
+  maxScore: 0
+  fishOffsetX: 0
+  fish: {fileID: 0}
   defeatImage: {fileID: 1607508107}
   randButton: 0
   keys: 00000000010000000300000002000000

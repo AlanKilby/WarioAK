@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AK_CutPart : MonoBehaviour
+public class ULA2_CutPart : MonoBehaviour
 {
     public float condition;
 
     public float xOffset;
 
-    public AK_ArmScript armScript;
+    public ULA2_ArmScript armScript;
 
     bool canCut;
 
