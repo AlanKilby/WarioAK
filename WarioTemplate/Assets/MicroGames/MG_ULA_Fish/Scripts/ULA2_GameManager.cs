@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AK_GameManager : MonoBehaviour, ITickable
+public class ULA2_GameManager : MonoBehaviour, ITickable
 {
     public GameObject[] fishList;
 
-    public AK_ArmScript armScript;
+    public ULA2_ArmScript armScript;
 
     public GameControllerSO gameController;
 
@@ -16,8 +16,8 @@ public class AK_GameManager : MonoBehaviour, ITickable
     private void Awake()
     {
         fishList[gameController.currentDifficulty-1].SetActive(true);
-        armScript.fishOffsetX = fishList[gameController.currentDifficulty-1].GetComponent<AK_FishInfo>().fishOffset;
-        armScript.maxScore = fishList[gameController.currentDifficulty-1].GetComponent<AK_FishInfo>().fishMaxScore;
+        armScript.fishOffsetX = fishList[gameController.currentDifficulty-1].GetComponent<ULA2_FishInfo>().fishOffset;
+        armScript.maxScore = fishList[gameController.currentDifficulty-1].GetComponent<ULA2_FishInfo>().fishMaxScore;
         armScript.fish = fishList[gameController.currentDifficulty-1];
     }
 
@@ -29,32 +29,45 @@ public class AK_GameManager : MonoBehaviour, ITickable
 
     public void OnTick()
     {
-        if(GameController.currentTick == 8 && armScript.counter == armScript.maxScore)
+        if(GameController.currentTick == 8 && armScript.counter >= armScript.maxScore)
         {
             GameController.FinishGame(true);
-            victoryImage.SetActive(true);
         }
         else if(GameController.currentTick == 8 && armScript.counter <= armScript.maxScore)
         {
             GameController.FinishGame(false);
-            defeatImage.SetActive(true);
         }
-
 
         if (armScript.counter >= armScript.maxScore)
         {
             victoryImage.SetActive(true);
-            armScript.canPressButton = false;
+            armScript.gameOver = true;
         }
         else if(GameController.currentTick == 5 && armScript.counter >= armScript.maxScore)
         {
             victoryImage.SetActive(true);
-            armScript.canPressButton = false;
+            armScript.gameOver = true;
         }
         else if (GameController.currentTick == 5 && armScript.counter <= armScript.maxScore)
         {
             defeatImage.SetActive(true);
+            armScript.gameOver = true;
+        }
+
+        if(GameController.currentTick == 5)
+        {
             armScript.canPressButton = false;
+        }
+
+        if(armScript.gameOver == true)
+        {
+            GameController.StopTimer();
+
+        }
+
+        if (GameController.currentTick == armScript.tick)
+        {
+            GameController.FinishGame(armScript.gameResult);
         }
 
     }

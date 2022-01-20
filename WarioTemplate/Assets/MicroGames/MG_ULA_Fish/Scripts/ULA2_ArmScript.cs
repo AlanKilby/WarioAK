@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AK_ArmScript : MonoBehaviour
+public class ULA2_ArmScript : MonoBehaviour
 {
     Animation anim;
 
@@ -10,11 +10,18 @@ public class AK_ArmScript : MonoBehaviour
 
     public int maxScore;
 
+    public int tick;
+
+    public bool gameResult;
+
     public float fishOffsetX;
     public GameObject fish;
     public GameObject defeatImage;
 
     public int randButton;
+
+    [HideInInspector]
+    public bool gameOver;
     //public string[] buttons = new string[] { "A", "B", "X", "Y" };
 
     public ControllerKey[] keys = new ControllerKey[] {ControllerKey.A, ControllerKey.B, ControllerKey.X, ControllerKey.Y};
@@ -28,43 +35,29 @@ public class AK_ArmScript : MonoBehaviour
         randButton = Random.Range(0, 4);
         anim = GetComponent<Animation>();
         canPressButton = true;
+        tick = 8;
+        gameResult = false;
+        gameOver = false;
     }
     private void Update()
     {
-        //if (counter < maxScore && Input.GetButtonDown(buttons[randButton]))
-        //{
-        //    anim.Play();
-        //}
-       
         if (counter < maxScore && InputManager.GetKeyDown(keys[randButton]) && canPressButton)
         {
             anim.Play();
         }
 
-        //for (int i = 0; i < buttons.Length; i++)
-        //{
-        //    if(i != randButton && Input.GetButtonDown(buttons[i]))
-        //    {
-        //        Debug.Log("YOU LOST !");
-        //    }
-        //}
 
         for (int i = 0; i < keys.Length; i++)
         {
             if (i != randButton && InputManager.GetKeyDown(keys[i]) && canPressButton)
             {
-                Debug.Log("YOU LOST !");
                 defeatImage.SetActive(true);
                 canPressButton = false;
+                gameOver = true;
+                tick = GameController.currentTick+3;
+                GameController.StopTimer();
             }
         }
-
-        //if (counter < maxScore && Input.GetButtonUp(buttons[randButton]))
-        //{
-        //    OffsetFish(fishOffsetX);
-        //    counter++;
-        //    randButton = Random.Range(0, 4);
-        //}
 
         if (counter < maxScore && InputManager.GetKeyUp(keys[randButton]) && canPressButton)
         {
@@ -74,12 +67,16 @@ public class AK_ArmScript : MonoBehaviour
             AudioManager.PlaySound(chop);
         }
 
-        if (counter >= maxScore)
+        if (counter >= maxScore && canPressButton)
         {
             randButton = 4;
             canPressButton = false;
+            tick = GameController.currentTick + 3;
+            gameResult = true;
+            gameOver = true;
         }
 
+        
     }
 
     public void OffsetFish(float offset)
