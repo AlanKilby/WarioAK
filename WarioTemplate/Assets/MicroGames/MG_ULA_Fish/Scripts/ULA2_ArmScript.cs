@@ -10,8 +10,6 @@ public class ULA2_ArmScript : MonoBehaviour
 
     public int maxScore;
 
-    public int tick;
-
     public bool gameResult;
 
     public float fishOffsetX;
@@ -35,7 +33,6 @@ public class ULA2_ArmScript : MonoBehaviour
         randButton = Random.Range(0, 4);
         anim = GetComponent<Animation>();
         canPressButton = true;
-        tick = 8;
         gameResult = false;
         gameOver = false;
     }
@@ -54,8 +51,6 @@ public class ULA2_ArmScript : MonoBehaviour
                 defeatImage.SetActive(true);
                 canPressButton = false;
                 gameOver = true;
-                tick = GameController.currentTick+3;
-                GameController.StopTimer();
             }
         }
 
@@ -71,7 +66,6 @@ public class ULA2_ArmScript : MonoBehaviour
         {
             randButton = 4;
             canPressButton = false;
-            tick = GameController.currentTick + 3;
             gameResult = true;
             gameOver = true;
         }

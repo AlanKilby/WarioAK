@@ -13,6 +13,7 @@ public class ULA2_GameManager : MonoBehaviour, ITickable
     public GameObject victoryImage;
     public GameObject defeatImage;
 
+    int tick;
     private void Awake()
     {
         fishList[gameController.currentDifficulty-1].SetActive(true);
@@ -29,26 +30,26 @@ public class ULA2_GameManager : MonoBehaviour, ITickable
 
     public void OnTick()
     {
-        if(GameController.currentTick == 8 && armScript.counter >= armScript.maxScore)
+        if (!armScript.gameOver)
         {
-            GameController.FinishGame(true);
+            tick = GameController.currentTick + 3;
+
         }
-        else if(GameController.currentTick == 8 && armScript.counter <= armScript.maxScore)
-        {
-            GameController.FinishGame(false);
-        }
+
+        
 
         if (armScript.counter >= armScript.maxScore)
         {
             victoryImage.SetActive(true);
             armScript.gameOver = true;
+            armScript.gameResult = true;
         }
         else if(GameController.currentTick == 5 && armScript.counter >= armScript.maxScore)
         {
             victoryImage.SetActive(true);
             armScript.gameOver = true;
         }
-        else if (GameController.currentTick == 5 && armScript.counter <= armScript.maxScore)
+        else if (GameController.currentTick == 5 && armScript.counter < armScript.maxScore)
         {
             defeatImage.SetActive(true);
             armScript.gameOver = true;
@@ -57,18 +58,22 @@ public class ULA2_GameManager : MonoBehaviour, ITickable
         if(GameController.currentTick == 5)
         {
             armScript.canPressButton = false;
+            armScript.gameOver = true;
         }
 
-        if(armScript.gameOver == true)
+        if(armScript.gameOver)
         {
             GameController.StopTimer();
 
         }
 
-        if (GameController.currentTick == armScript.tick)
+        if (GameController.currentTick >= tick)
         {
+            Debug.Log("RESTART GAME");
             GameController.FinishGame(armScript.gameResult);
         }
 
+        //Debug.LogError(tick);
+        //Debug.Log(GameController.currentTick);
     }
 }
